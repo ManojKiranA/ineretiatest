@@ -20,7 +20,7 @@
     </div>
 
     <div class="row">
-        <table class="table">
+        <table class="table sortable">
             <thead>
                 <tr>
                     <th>
@@ -32,6 +32,9 @@
                     <th>
                         Post Desc
                     </th>
+                    <th class="text-center">
+                        Actions
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +42,29 @@
                     <td>{{post.post_name}}</td>
                     <td>{{post.post_slug}}</td>
                     <td>{{post.post_description}}</td>
+                    <td class="text-center">
+                        <InertiaLink
+                            :href="post.url.editAction"
+                        >
+                        Edit
+                        </InertiaLink>
+
+                        <InertiaLink
+                            :href="post.url.showAction"
+                        >
+                        Show
+                        </InertiaLink>
+
+                        <button 
+                            class="text-red hover:underline" 
+                            tabindex="-1" 
+                            type="button" 
+                            @click="deletePost(post)"
+                        >
+                            Delete Post
+                        </button>
+                        
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -90,7 +116,7 @@ export default {
             default : null,
         },
         paginationLength : {
-            type : String,
+            type : Number,
             default : null,
         },
         paginationLengthArray: {
@@ -139,10 +165,21 @@ export default {
             return this.posts.to;
         },
     },
+
+    methods : {
+        deletePost : function(postObject){
+            if (confirm('Are you sure you want to delete this Post?')) {
+                this.$inertia.delete(postObject.url.deleteAction);
+            }else{
+                alert('Your Post is Safe');
+            }
+        },
+    },
     watch : {
         postName : debounce(function(){
 
             const query = this.urlQueryWithParms;
+            const changableOnEachVisit = ['posts','paginatedLinks'];
 
             this.$inertia.visit(query ? `/posts?${query}` : '/posts', {
                 preserveScroll: true,
@@ -177,10 +214,12 @@ export default {
 
             const query = this.urlQueryWithParms;
 
+            const changableOnEachVisit = ['posts','paginatedLinks'];
+
             this.$inertia.visit(query ? `/posts?${query}` : '/posts', {
                 preserveScroll: true,
                 preserveState: true,
-                only: ['posts','paginatedLinks'],
+                only: changableOnEachVisit,
             });
         },300), 
 

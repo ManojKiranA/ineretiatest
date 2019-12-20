@@ -6,6 +6,7 @@ use App\Post;
 use App\Services\PaginatedLinks;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Redirect;
 
 class PostController extends Controller
 {
@@ -24,7 +25,7 @@ class PostController extends Controller
 
         $postObject = new Post;
 
-        $paginationLength = $request->input('perPageLength',$postObject->getPerPage());
+        $paginationLength = (int) $request->input('perPageLength',$postObject->getPerPage());
 
         $paginationLengthArray = [
             5,
@@ -101,7 +102,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        dd($post);
     }
 
     /**
@@ -124,6 +125,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+
+        $post->delete();
+
+        return Redirect::back()->with('success', 'Organization deleted.');
     }
 }

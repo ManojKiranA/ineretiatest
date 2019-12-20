@@ -21,7 +21,15 @@ class DatabaseSeeder extends Seeder
                 'password' => Hash::make('password'),
             ]
         );
-        factory(User::class,500)->create();
-        factory(Post::class,500)->create();
+        factory(User::class,10)->create();
+
+        for($i = 1; $i <= 100; $i++):
+            $this->command->info('Loop'.$i.'Started');
+                factory(Post::class,rand(10,20))->create();
+                $this->command->info(PHP_EOL);
+            $this->command->info('Loop'.$i.'Ended');
+        endfor;
+        
+        
     }
 }

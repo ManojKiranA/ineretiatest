@@ -1933,6 +1933,32 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1955,7 +1981,7 @@ __webpack_require__.r(__webpack_exports__);
       "default": null
     },
     paginationLength: {
-      type: String,
+      type: Number,
       "default": null
     },
     paginationLengthArray: {
@@ -2001,9 +2027,19 @@ __webpack_require__.r(__webpack_exports__);
       return this.posts.to;
     }
   },
+  methods: {
+    deletePost: function deletePost(postObject) {
+      if (confirm('Are you sure you want to delete this Post?')) {
+        this.$inertia["delete"](postObject.url.deleteAction);
+      } else {
+        alert('Your Post is Safe');
+      }
+    }
+  },
   watch: {
     postName: lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default()(function () {
       var query = this.urlQueryWithParms;
+      var changableOnEachVisit = ['posts', 'paginatedLinks'];
       this.$inertia.visit(query ? "/posts?".concat(query) : '/posts', {
         preserveScroll: true,
         preserveState: true,
@@ -2028,10 +2064,11 @@ __webpack_require__.r(__webpack_exports__);
     }, 300),
     globalSearch: lodash_debounce__WEBPACK_IMPORTED_MODULE_1___default()(function () {
       var query = this.urlQueryWithParms;
+      var changableOnEachVisit = ['posts', 'paginatedLinks'];
       this.$inertia.visit(query ? "/posts?".concat(query) : '/posts', {
         preserveScroll: true,
         preserveState: true,
-        only: ['posts', 'paginatedLinks']
+        only: changableOnEachVisit
       });
     }, 300)
   }
@@ -4745,7 +4782,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "row" }, [
-        _c("table", { staticClass: "table" }, [
+        _c("table", { staticClass: "table sortable" }, [
           _c("thead", [
             _c("tr", [
               _c("th", [
@@ -4764,6 +4801,12 @@ var render = function() {
                 _vm._v(
                   "\r\n                        Post Desc\r\n                    "
                 )
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "text-center" }, [
+                _vm._v(
+                  "\r\n                        Actions\r\n                    "
+                )
               ])
             ])
           ]),
@@ -4776,7 +4819,52 @@ var render = function() {
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(post.post_slug))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(post.post_description))])
+                _c("td", [_vm._v(_vm._s(post.post_description))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "text-center" },
+                  [
+                    _c(
+                      "InertiaLink",
+                      { attrs: { href: post.url.editAction } },
+                      [
+                        _vm._v(
+                          "\r\n                        Edit\r\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "InertiaLink",
+                      { attrs: { href: post.url.showAction } },
+                      [
+                        _vm._v(
+                          "\r\n                        Show\r\n                        "
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass: "text-red hover:underline",
+                        attrs: { tabindex: "-1", type: "button" },
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePost(post)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\r\n                            Delete Post\r\n                        "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                )
               ])
             }),
             0

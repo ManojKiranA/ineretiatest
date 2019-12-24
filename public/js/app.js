@@ -1959,6 +1959,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2028,12 +2055,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    confirmBeforeDeletion: function confirmBeforeDeletion(postObject) {
+      return confirm('Are you sure?');
+    },
     deletePost: function deletePost(postObject) {
       if (confirm('Are you sure you want to delete this Post?')) {
         this.$inertia["delete"](postObject.url.deleteAction);
       } else {
         alert('Your Post is Safe');
       }
+    },
+    getSortFor: function getSortFor(sortField) {
+      var query = this.urlQueryWithParms;
+      var newQuery = query + '' + '&sort=' + sortField;
+      var foo = newQuery ? "/posts?".concat(newQuery) : '/posts';
+      return foo;
+      console.log('hai');
+    },
+    sort: function sort(parameterName) {
+      console.log(parameterName);
     }
   },
   watch: {
@@ -2071,6 +2111,48 @@ __webpack_require__.r(__webpack_exports__);
         only: changableOnEachVisit
       });
     }, 300)
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js&":
+/*!*******************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js& ***!
+  \*******************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    url: {
+      type: String,
+      required: true,
+      "default": null
+    },
+    confirmDialog: {
+      type: String,
+      "default": 'Are You Sure'
+    }
+  },
+  methods: {
+    deleteModel: function deleteModel() {
+      if (confirm(this.confirmDialog)) {
+        this.$inertia["delete"](this.url);
+      }
+    }
   }
 });
 
@@ -4716,6 +4798,39 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("layout", [
     _c("div", [
+      _vm.$page.flash.success
+        ? _c(
+            "div",
+            {
+              staticClass: "alert alert-success alert-dismissible fade show",
+              attrs: { role: "alert" }
+            },
+            [
+              _vm._v(
+                "\r\n            " +
+                  _vm._s(_vm.$page.flash.success) +
+                  "\r\n            "
+              ),
+              _c(
+                "button",
+                {
+                  staticClass: "close",
+                  attrs: {
+                    type: "button",
+                    "data-dismiss": "alert",
+                    "aria-label": "Close"
+                  }
+                },
+                [
+                  _c("span", { attrs: { "aria-hidden": "true" } }, [
+                    _vm._v("×")
+                  ])
+                ]
+              )
+            ]
+          )
+        : _vm._e(),
+      _vm._v(" "),
       _c("div", { staticClass: "row mb-4" }, [
         _c("div", { staticClass: "col form-inline" }, [
           _vm._v("\r\n            Per Page:  \r\n            "),
@@ -4785,23 +4900,90 @@ var render = function() {
         _c("table", { staticClass: "table sortable" }, [
           _c("thead", [
             _c("tr", [
-              _c("th", [
-                _vm._v(
-                  "\r\n                        Post Name\t\r\n                    "
-                )
-              ]),
+              _c(
+                "th",
+                [
+                  _c(
+                    "InertiaLink",
+                    {
+                      attrs: { href: _vm.getSortFor("postName") },
+                      model: {
+                        value: _vm.sort,
+                        callback: function($$v) {
+                          _vm.sort = $$v
+                        },
+                        expression: "sort"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                            Post Name\r\n                        "
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("th", [
-                _vm._v(
-                  "\r\n                        Post Slug\r\n                    "
-                )
-              ]),
+              _c(
+                "th",
+                [
+                  _c(
+                    "InertiaLink",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.sort("sortPostSlug")
+                        }
+                      },
+                      model: {
+                        value: _vm.sort,
+                        callback: function($$v) {
+                          _vm.sort = $$v
+                        },
+                        expression: "sort"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                            Post Slug\r\n                        "
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
-              _c("th", [
-                _vm._v(
-                  "\r\n                        Post Desc\r\n                    "
-                )
-              ]),
+              _c(
+                "th",
+                [
+                  _c(
+                    "InertiaLink",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          return _vm.sort("sortPostDesc")
+                        }
+                      },
+                      model: {
+                        value: _vm.sort,
+                        callback: function($$v) {
+                          _vm.sort = $$v
+                        },
+                        expression: "sort"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        "\r\n                            Post Desc\r\n                        "
+                      )
+                    ]
+                  )
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("th", { staticClass: "text-center" }, [
                 _vm._v(
@@ -4845,23 +5027,9 @@ var render = function() {
                       ]
                     ),
                     _vm._v(" "),
-                    _c(
-                      "button",
-                      {
-                        staticClass: "text-red hover:underline",
-                        attrs: { tabindex: "-1", type: "button" },
-                        on: {
-                          click: function($event) {
-                            return _vm.deletePost(post)
-                          }
-                        }
-                      },
-                      [
-                        _vm._v(
-                          "\r\n                            Delete Post\r\n                        "
-                        )
-                      ]
-                    )
+                    _c("Delete-Button", {
+                      attrs: { url: post.url.deleteAction }
+                    })
                   ],
                   1
                 )
@@ -4902,6 +5070,38 @@ var render = function() {
       ])
     ])
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce&":
+/*!***********************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce& ***!
+  \***********************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    {
+      staticClass: "btn btn-sm btn-outline-danger",
+      attrs: { type: "button" },
+      on: { click: _vm.deleteModel }
+    },
+    [_vm._v("\nDelete\n")]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -13801,6 +14001,7 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./DeleteButton.vue": "./resources/js/Shared/DeleteButton.vue",
 	"./Layout.vue": "./resources/js/Shared/Layout.vue",
 	"./Links.vue": "./resources/js/Shared/Links.vue",
 	"./TextField.vue": "./resources/js/Shared/TextField.vue"
@@ -13825,6 +14026,75 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = "./resources/js/Shared sync recursive \\.vue$/";
+
+/***/ }),
+
+/***/ "./resources/js/Shared/DeleteButton.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/Shared/DeleteButton.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./DeleteButton.vue?vue&type=template&id=3d82e4ce& */ "./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce&");
+/* harmony import */ var _DeleteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./DeleteButton.vue?vue&type=script&lang=js& */ "./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _DeleteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/Shared/DeleteButton.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js&":
+/*!***********************************************************************!*\
+  !*** ./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteButton.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Shared/DeleteButton.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteButton_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce&":
+/*!*****************************************************************************!*\
+  !*** ./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce& ***!
+  \*****************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./DeleteButton.vue?vue&type=template&id=3d82e4ce& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/Shared/DeleteButton.vue?vue&type=template&id=3d82e4ce&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_DeleteButton_vue_vue_type_template_id_3d82e4ce___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

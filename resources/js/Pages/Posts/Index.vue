@@ -2,6 +2,17 @@
 <layout>
 
     <div>
+        
+        <div 
+        v-if="$page.flash.success" 
+        class="alert alert-success alert-dismissible fade show" 
+        role="alert">
+            {{$page.flash.success}}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
     <div class="row mb-4">
         <div class="col form-inline">
             Per Page: &nbsp;
@@ -23,15 +34,36 @@
         <table class="table sortable">
             <thead>
                 <tr>
+                    
+                        <th>
+
+                        <InertiaLink 
+                            :href="getSortFor('postName')"
+                            v-model="sort"
+                        >
+                            Post Name
+                        </InertiaLink>
+                        </th>
+                   
+                    
                     <th>
-                        Post Name	
-                    </th>
+                        <InertiaLink 
+                            href="#"
+                            @click="sort('sortPostSlug')"
+                            v-model="sort"
+                        >
+                            Post Slug
+                        </InertiaLink>
+                        </th>
                     <th>
-                        Post Slug
-                    </th>
-                    <th>
-                        Post Desc
-                    </th>
+                        <InertiaLink 
+                            href="#"
+                            @click="sort('sortPostDesc')"
+                            v-model="sort"
+                        >
+                            Post Desc
+                        </InertiaLink>
+                        </th>
                     <th class="text-center">
                         Actions
                     </th>
@@ -55,15 +87,10 @@
                         Show
                         </InertiaLink>
 
-                        <button 
-                            class="text-red hover:underline" 
-                            tabindex="-1" 
-                            type="button" 
-                            @click="deletePost(post)"
+                        <Delete-Button
+                            :url="post.url.deleteAction"
                         >
-                            Delete Post
-                        </button>
-                        
+                        </Delete-Button>                        
                     </td>
                 </tr>
             </tbody>
@@ -167,6 +194,10 @@ export default {
     },
 
     methods : {
+        confirmBeforeDeletion : function(postObject){
+            return confirm('Are you sure?');
+        },
+
         deletePost : function(postObject){
             if (confirm('Are you sure you want to delete this Post?')) {
                 this.$inertia.delete(postObject.url.deleteAction);
@@ -174,6 +205,18 @@ export default {
                 alert('Your Post is Safe');
             }
         },
+        getSortFor : function(sortField){
+            const query = this.urlQueryWithParms;
+
+            const newQuery = query + '' + '&sort=' + sortField;
+
+            var foo = newQuery ? `/posts?${newQuery}` : '/posts';
+            return foo;
+            console.log('hai');
+        },
+        sort : function(parameterName){
+            console.log(parameterName);
+        }
     },
     watch : {
         postName : debounce(function(){

@@ -1907,6 +1907,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   computed: {
     saveButton: function saveButton() {
@@ -5060,125 +5063,137 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("layout", [
-    _c("div", [
-      _c(
-        "form",
-        {
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.submit($event)
-            }
-          }
-        },
-        [
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "post_name" } }, [_vm._v("Post Name")]),
-            _vm._v(" "),
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.post_name,
-                  expression: "form.post_name"
-                }
-              ],
-              class: _vm.setClassBasedOnState("post_name"),
-              attrs: {
-                type: "text",
-                id: "post_name",
-                placeholder: "Post Name",
-                name: "post_name"
-              },
-              domProps: { value: _vm.form.post_name },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.$set(_vm.form, "post_name", $event.target.value)
-                }
+    _c(
+      "div",
+      [
+        _c(
+          "InertiaLink",
+          { staticClass: "nav-link", attrs: { href: "/posts" } },
+          [_vm._v("\r\n                        Back\r\n                    ")]
+        ),
+        _vm._v(" "),
+        _c(
+          "form",
+          {
+            on: {
+              submit: function($event) {
+                $event.preventDefault()
+                return _vm.submit($event)
               }
-            }),
-            _vm._v(" "),
-            _vm.$page.errors.post_name
-              ? _c("div", { staticClass: "invalid-feedback" }, [
-                  _vm._v(
-                    "\r\n                    " +
-                      _vm._s(_vm.$page.errors.post_name[0]) +
-                      "\r\n                "
-                  )
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "form-group" }, [
-            _c("label", { attrs: { for: "post_description" } }, [
-              _vm._v("Post Description")
+            }
+          },
+          [
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "post_name" } }, [
+                _vm._v("Post Name")
+              ]),
+              _vm._v(" "),
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.post_name,
+                    expression: "form.post_name"
+                  }
+                ],
+                class: _vm.setClassBasedOnState("post_name"),
+                attrs: {
+                  type: "text",
+                  id: "post_name",
+                  placeholder: "Post Name",
+                  name: "post_name"
+                },
+                domProps: { value: _vm.form.post_name },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "post_name", $event.target.value)
+                  }
+                }
+              }),
+              _vm._v(" "),
+              _vm.$page.errors.post_name
+                ? _c("div", { staticClass: "invalid-feedback" }, [
+                    _vm._v(
+                      "\r\n                    " +
+                        _vm._s(_vm.$page.errors.post_name[0]) +
+                        "\r\n                "
+                    )
+                  ])
+                : _vm._e()
             ]),
             _vm._v(" "),
-            _c("textarea", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.form.post_description,
-                  expression: "form.post_description"
-                }
-              ],
-              class: _vm.setClassBasedOnState("post_description"),
-              attrs: {
-                id: "post_description",
-                placeholder: "Post Description",
-                name: "post_description"
-              },
-              domProps: { value: _vm.form.post_description },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "post_description" } }, [
+                _vm._v("Post Description")
+              ]),
+              _vm._v(" "),
+              _c("textarea", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.form.post_description,
+                    expression: "form.post_description"
                   }
-                  _vm.$set(_vm.form, "post_description", $event.target.value)
+                ],
+                class: _vm.setClassBasedOnState("post_description"),
+                attrs: {
+                  id: "post_description",
+                  placeholder: "Post Description",
+                  name: "post_description"
+                },
+                domProps: { value: _vm.form.post_description },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.$set(_vm.form, "post_description", $event.target.value)
+                  }
                 }
-              }
-            }),
+              }),
+              _vm._v(" "),
+              _vm.$page.errors.post_description
+                ? _c("div", { staticClass: "invalid-feedback" }, [
+                    _vm._v(
+                      "\r\n                    " +
+                        _vm._s(_vm.$page.errors.post_description[0]) +
+                        "\r\n                "
+                    )
+                  ])
+                : _vm._e()
+            ]),
             _vm._v(" "),
-            _vm.$page.errors.post_description
-              ? _c("div", { staticClass: "invalid-feedback" }, [
-                  _vm._v(
-                    "\r\n                    " +
-                      _vm._s(_vm.$page.errors.post_description[0]) +
-                      "\r\n                "
-                  )
-                ])
-              : _vm._e()
-          ]),
-          _vm._v(" "),
-          _c(
-            "button",
-            {
-              staticClass: "btn btn-primary",
-              attrs: { type: "submit", disabled: _vm.sending }
-            },
-            [
-              _vm.sending
-                ? _c("span", {
-                    staticClass:
-                      "spinner-border spinner-border-sm text-warning",
-                    attrs: { role: "status", "aria-hidden": "true" }
-                  })
-                : _vm._e(),
-              _vm._v(
-                "\r\n                " +
-                  _vm._s(_vm.saveButton) +
-                  "\r\n            "
-              )
-            ]
-          )
-        ]
-      )
-    ])
+            _c(
+              "button",
+              {
+                staticClass: "btn btn-primary",
+                attrs: { type: "submit", disabled: _vm.sending }
+              },
+              [
+                _vm.sending
+                  ? _c("span", {
+                      staticClass:
+                        "spinner-border spinner-border-sm text-warning",
+                      attrs: { role: "status", "aria-hidden": "true" }
+                    })
+                  : _vm._e(),
+                _vm._v(
+                  "\r\n                " +
+                    _vm._s(_vm.saveButton) +
+                    "\r\n            "
+                )
+              ]
+            )
+          ]
+        )
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []

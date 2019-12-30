@@ -1,6 +1,9 @@
 <template>
 <layout>
-    <div>        
+    <div>    
+        <InertiaLink href="/posts" class="nav-link">
+                        Back
+                    </InertiaLink>      
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="post_name">Post Name</label>

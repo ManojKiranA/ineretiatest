@@ -1,8 +1,7 @@
 <template>
 <layout>
 
-    <div>
-        
+    <div>        
         <div 
         v-if="$page.flash.success" 
         class="alert alert-success alert-dismissible fade show" 
@@ -20,6 +19,13 @@
                 <option v-for="eachPageLength in paginationLengthArray" v-bind:key="eachPageLength" :value="eachPageLength">{{eachPageLength}}</option>
             </select>
         </div>
+        <InertiaLink
+            href="/posts/create"
+            class="btn btn btn-outline-info" 
+            
+        >
+            Create New Post
+        </InertiaLink>
 
         <div class="col">
             <TextField 

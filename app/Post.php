@@ -39,4 +39,11 @@ class Post extends Model
      * @var array
      */
     protected $appends = ['url'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['post_name','post_slug','post_description'];
 }

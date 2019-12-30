@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         factory(User::class)->create(
             [
                 'name' => 'Admin',
-                'email' => 'admin.admin.com',
+                'email' => 'admin@admin.com',
                 'password' => Hash::make('password'),
             ]
         );
         factory(User::class,10)->create();
 
-        for($i = 1; $i <= 100; $i++):
+        for($i = 1; $i <= 50; $i++):
             $this->command->info('Loop'.$i.'Started');
                 factory(Post::class,rand(10,20))->create();
                 $this->command->info(PHP_EOL);

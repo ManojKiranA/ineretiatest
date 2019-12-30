@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use App\Post;
-use App\Services\PaginatedLinks;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Services\PaginatedLinks;
+use Illuminate\Support\Facades\Auth;
+use Faker\Generator as Faker;
 
 class PostController extends Controller
 {
@@ -16,6 +20,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        // dd(Auth::user()->toArray());
         $postNameSearch = $request->input('postName',null);
 
         $postDescriptionSearch = $request->input('postDescription',null);
@@ -49,6 +54,7 @@ class PostController extends Controller
                             ->orWhere('post_slug','LIKE','%'.$globalSearchSearch.'%')
                             ;
                     })
+                    ->latest()
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
                     ->onEachSide(2);
@@ -68,7 +74,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Posts/Create');
     }
 
     /**
@@ -77,9 +83,19 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        //
+        $storeArray = array_merge(
+            $request->only(['post_name','post_description']),
+            [
+                'post_slug' => Str::slug($request->get('post_name')),
+            ]
+        );
+        Post::create($storeArray);
+
+        return redirect()
+                    ->route('posts.index')
+                    ->with('success','Post Created Sucessfully');
     }
 
     /**
@@ -101,7 +117,23 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        dd($post);
+        $faker = (app(Faker::class));
+
+        $postName = $faker->word;
+        $postSlug = Str::slug($postName);
+        $postDesc = $faker->sentence;
+
+        $post->update(
+            [
+        'post_name' => $postName,
+        'post_slug' => $postSlug,
+        'post_description' => $postDesc,
+    ]
+        );
+
+        return redirect()
+                    ->back()
+                    ->with('success','Post Updated Sucessfully');
     }
 
     /**

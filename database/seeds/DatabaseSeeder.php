@@ -23,9 +23,9 @@ class DatabaseSeeder extends Seeder
         );
         factory(User::class,10)->create();
 
-        for($i = 1; $i <= 50; $i++):
+        for($i = 1; $i <= 10; $i++):
             $this->command->info('Loop'.$i.'Started');
-                factory(Post::class,rand(10,20))->create();
+                factory(Post::class,5)->create();
                 $this->command->info(PHP_EOL);
             $this->command->info('Loop'.$i.'Ended');
         endfor;

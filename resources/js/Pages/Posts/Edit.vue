@@ -1,6 +1,10 @@
 <template>
 <layout>
-    <div>        
+    <div>      
+
+        <InertiaLink href="/posts" class="nav-link">
+                        Back
+                    </InertiaLink>  
         <form @submit.prevent="submit">
             <div class="form-group">
                 <label for="post_name">Post Name</label>
@@ -44,12 +48,18 @@
 <script>
 
 export default {
+    props : {
+        post : {
+            type : Object,
+            required : true,
+        },
+    },
     computed: {
         saveButton : function(){
             if(this.sending === true){
-                return 'Saving...';
+                return 'Updating...';
             }else{
-                return 'Save';
+                return 'Update';
             }
         },
     },
@@ -58,15 +68,15 @@ export default {
         return {
             sending: false,
             form: {
-                post_name: null,
-                post_description: null,
+                post_name: this.post.post_name,
+                post_description: this.post.post_description,
             }
         };
     },
     methods : {
         submit : function(){
             this.sending = true
-            this.$inertia.post('/posts/', this.form)
+            this.$inertia.put(`/posts/${this.post.id}`, this.form)
             .then(() => this.sending = false);
         },
         setClassBasedOnState : function(formAttributes){

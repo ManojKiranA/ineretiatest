@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
 use App\Post;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -20,6 +21,7 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+        // sleep(10);
         // dd(Auth::user()->toArray());
         $postNameSearch = $request->input('postName',null);
 
@@ -57,7 +59,7 @@ class PostController extends Controller
                     ->latest()
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
-                    ->onEachSide(2);
+                    ->onEachSide(3);
 
         $paginatedLinks = (new PaginatedLinks)->setPaginatorInstance($posts)->get();
 
@@ -106,7 +108,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        return Inertia::render('Posts/Show',compact('post'));
     }
 
     /**
@@ -117,23 +119,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $faker = (app(Faker::class));
-
-        $postName = $faker->word;
-        $postSlug = Str::slug($postName);
-        $postDesc = $faker->sentence;
-
-        $post->update(
-            [
-        'post_name' => $postName,
-        'post_slug' => $postSlug,
-        'post_description' => $postDesc,
-    ]
-        );
-
-        return redirect()
-                    ->back()
-                    ->with('success','Post Updated Sucessfully');
+        return Inertia::render('Posts/Edit',compact('post'));
     }
 
     /**
@@ -143,9 +129,19 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
+    public function update(PostUpdateRequest $request, Post $post)
     {
-        //
+        $updateArray = array_merge(
+            $request->only(['post_name','post_description']),
+            [
+                'post_slug' => Str::slug($request->get('post_name')),
+            ]
+        );
+
+        $post->update($updateArray);
+            return redirect()
+                    ->route('posts.index')
+                    ->with('success','Post Updated Sucessfully');
     }
 
     /**

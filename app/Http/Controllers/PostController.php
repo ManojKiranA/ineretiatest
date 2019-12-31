@@ -59,7 +59,7 @@ class PostController extends Controller
                     ->latest()
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
-                    ->onEachSide(3);
+                    ->onEachSide(2);
 
         $paginatedLinks = (new PaginatedLinks)->setPaginatorInstance($posts)->get();
 

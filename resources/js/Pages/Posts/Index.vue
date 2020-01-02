@@ -1,17 +1,13 @@
 <template>
 <layout>
-
+<alert 
+    v-if="$page.flash.success" 
+    timeOut=5000
+    alertType="success"
+    :message=$page.flash.success
+>
+</alert>
     <div>        
-        <div 
-        v-if="$page.flash.success" 
-        class="alert alert-success alert-dismissible fade show" 
-        role="alert">
-            {{$page.flash.success}}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        
     <div class="row mb-4">
         <div class="col form-inline">
             Per Page: &nbsp;

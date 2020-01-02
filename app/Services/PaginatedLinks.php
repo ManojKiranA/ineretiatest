@@ -96,6 +96,20 @@ class PaginatedLinks
                     $i++;
             endif;
         endforeach;
+
+        // $methodsTobePassed = [
+        //     'hasMorePages',
+        //     'nextPageUrl',
+        //     'previousPageUrl',
+        //     'currentPage',
+        // ];
+        
+        // foreach($methodsTobePassed as $eachMethod):
+        //     $methods[$eachMethod] = $this
+        //             ->lengthAwarePaginator->$eachMethod();
+        // endforeach;
+
+
         return count($n) === 1 ? null : $n;
     }
 }

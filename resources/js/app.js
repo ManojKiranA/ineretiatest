@@ -19,8 +19,11 @@ files.keys().map(key => {
 });
 
 
-import { InertiaApp } from '@inertiajs/inertia-vue'
-import Vue from 'vue'
+import { InertiaApp } from '@inertiajs/inertia-vue';
+import Vue from 'vue';
+
+import 'bootstrap'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 Vue.use(InertiaApp)
 

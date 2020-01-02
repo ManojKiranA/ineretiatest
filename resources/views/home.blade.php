@@ -15,6 +15,9 @@
                     @endif
 
                     You are logged in!
+                    <a href="{{route('posts.index')}}">
+                        Posts
+                    </a>
                 </div>
             </div>
         </div>

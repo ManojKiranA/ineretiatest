@@ -2006,6 +2006,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     post: {
@@ -2035,8 +2036,9 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this = this;
 
+      // console.log(`/posts/${this.post.id}`);
       this.sending = true;
-      this.$inertia.put("/posts/".concat(this.post.id), this.form).then(function () {
+      this.$inertia.put(this.post.links.update, this.form).then(function () {
         return _this.sending = false;
       });
     },
@@ -2184,12 +2186,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {},
   props: {
+    postResource: {
+      type: Object,
+      "default": null
+    },
     posts: {
       type: Object,
       "default": null
@@ -23681,6 +23686,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("layout", [
+    _vm._v("\r\n    " + _vm._s(this.$page) + "\r\n    "),
     _c(
       "div",
       [
@@ -23842,7 +23848,7 @@ var render = function() {
       _vm.$page.flash.success
         ? _c("alert", {
             attrs: {
-              timeOut: "5000",
+              timeOut: "2000",
               alertType: "success",
               message: _vm.$page.flash.success
             }
@@ -23902,11 +23908,11 @@ var render = function() {
               "InertiaLink",
               {
                 staticClass: "btn btn btn-outline-info",
-                attrs: { href: "/posts/create" }
+                attrs: { href: _vm.postResource.meta.links.create }
               },
               [_vm._v("\r\n            Create New Post\r\n        ")]
             ),
-            _vm._v(" "),
+            _vm._v("\r\n" + _vm._s(_vm.postResource) + "\r\n        "),
             _c(
               "div",
               { staticClass: "col" },
@@ -24043,29 +24049,19 @@ var render = function() {
                     "td",
                     { staticClass: "text-center" },
                     [
-                      _c(
-                        "InertiaLink",
-                        { attrs: { href: post.url.editAction } },
-                        [
-                          _vm._v(
-                            "\r\n                        Edit\r\n                        "
-                          )
-                        ]
-                      ),
+                      _c("InertiaLink", { attrs: { href: post.links.edit } }, [
+                        _vm._v(
+                          "\r\n                        Edit\r\n                        "
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "InertiaLink",
-                        { attrs: { href: post.url.showAction } },
-                        [
-                          _vm._v(
-                            "\r\n                        Show\r\n                        "
-                          )
-                        ]
-                      ),
+                      _c("InertiaLink", { attrs: { href: post.links.show } }, [
+                        _vm._v(
+                          "\r\n                        Show\r\n                        "
+                        )
+                      ]),
                       _vm._v(" "),
-                      _c("Delete-Button", {
-                        attrs: { url: post.url.deleteAction }
-                      })
+                      _c("Delete-Button", { attrs: { url: post.links.delete } })
                     ],
                     1
                   )
@@ -24155,7 +24151,7 @@ var render = function() {
                   "InertiaLink",
                   {
                     staticClass: "nav-link",
-                    attrs: { href: _vm.post.url.editAction }
+                    attrs: { href: _vm.post.links.edit }
                   },
                   [
                     _vm._v(

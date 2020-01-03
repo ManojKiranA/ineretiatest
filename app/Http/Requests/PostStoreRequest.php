@@ -28,20 +28,30 @@ class PostStoreRequest extends FormRequest
             'post_description' => ['required','string','max:20000'],
         ];
     }
+    
     /**
-     * undocumented function summary
+     * Get custom attributes for validator errors.
      *
-     * Undocumented function long description
-     *
-     * @param Type $var Description
-     * @return type
-     * @throws conditon
-     **/
+     * @return array
+     */
     public function attributes()
     {
         return [
             'post_name' => 'Post Name',
             'post_description' => 'Post Description',
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'post_name.required' => 'The :attribute is required.',
+            'post_description.required' => 'The :attribute is required.',
         ];
     }
 }

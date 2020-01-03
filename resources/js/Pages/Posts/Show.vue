@@ -11,7 +11,7 @@
                         Back
                     </InertiaLink>
                     <InertiaLink 
-                    :href="post.url.editAction" class="nav-link">
+                    :href="post.links.edit" class="nav-link">
                         Edit
                     </InertiaLink>
                 </li>

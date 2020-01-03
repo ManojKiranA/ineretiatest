@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
 use App\Http\Requests\PostUpdateRequest;
+use App\Http\Resources\PostResource;
 use App\Post;
 use Inertia\Inertia;
 use Illuminate\Support\Str;
@@ -59,11 +60,18 @@ class PostController extends Controller
                     ->latest()
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
-                    ->onEachSide(2);
+                    ->onEachSide(4);
+                    
+        $cloner = clone $posts;
+        $postResource = ((new PostResource($posts)));
+
+        // dump($postResource);
+        // return ($postResource);
+        // dd(response($postResource)->getContent());
 
         $paginatedLinks = (new PaginatedLinks)->setPaginatorInstance($posts)->get();
 
-        $viewShare = compact(['posts','paginatedLinks','postNameSearch','postDescriptionSearch','paginationLengthArray','paginationLength','globalSearchSearch']);
+        $viewShare = compact(['posts','paginatedLinks','postNameSearch','postDescriptionSearch','paginationLengthArray','paginationLength','globalSearchSearch','postResource']);
 
 
         return Inertia::render('Posts/Index',$viewShare);

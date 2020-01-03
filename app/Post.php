@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Route;
 
 class Post extends Model
 {
@@ -13,7 +14,7 @@ class Post extends Model
      *
      * @var int
      */
-    protected $perPage = 10;
+    protected $perPage = 5;
 
 
     /**
@@ -22,15 +23,16 @@ class Post extends Model
      *
      * @return array
      **/
-    public function getUrlAttribute()
+    public function getLinksAttribute()
     {
-        $urls = [
-            'editAction' => route('posts.edit',$this),
-            'deleteAction' => route('posts.destroy',$this),
-            'showAction' => route('posts.show',$this),
+        return [
+                // 'index' => route('posts.index'),
+                'currentroute' => (Route::currentRouteName()),
+                'show' => route('posts.show',['post' => $this]),
+                'edit' => route('posts.edit',['post' => $this]),
+                'update' =>  route('posts.update',['post' => $this]),
+                'delete' => route('posts.destroy',['post' => $this]),
         ];
-
-        return $urls;
     }
 
     /**
@@ -38,7 +40,7 @@ class Post extends Model
      *
      * @var array
      */
-    protected $appends = ['url'];
+    protected $appends = ['links'];
 
     /**
      * The attributes that are mass assignable.

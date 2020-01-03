@@ -2,7 +2,7 @@
 <layout>
 <alert 
     v-if="$page.flash.success" 
-    timeOut=5000
+    timeOut=2000
     alertType="success"
     :message=$page.flash.success
 >
@@ -16,13 +16,13 @@
             </select>
         </div>
         <InertiaLink
-            href="/posts/create"
+            :href="postResource.meta.links.create"
             class="btn btn btn-outline-info" 
             
         >
             Create New Post
         </InertiaLink>
-
+{{postResource}}
         <div class="col">
             <TextField 
               type="search"
@@ -31,7 +31,6 @@
               v-model="globalSearch" />
         </div>
     </div>
-
     <div class="row">
         <table class="table sortable">
             <thead>
@@ -78,19 +77,19 @@
                     <td>{{post.post_description}}</td>
                     <td class="text-center">
                         <InertiaLink
-                            :href="post.url.editAction"
+                            :href="post.links.edit"
                         >
                         Edit
                         </InertiaLink>
 
                         <InertiaLink
-                            :href="post.url.showAction"
+                            :href="post.links.show"
                         >
                         Show
                         </InertiaLink>
 
                         <Delete-Button
-                            :url="post.url.deleteAction"
+                            :url="post.links.delete"
                         >
                         </Delete-Button>                        
                     </td>
@@ -128,6 +127,10 @@ export default {
 
     },
     props : {
+        postResource : {
+            type : Object,
+            default : null,
+        },
         posts : {
             type : Object,
             default : null,

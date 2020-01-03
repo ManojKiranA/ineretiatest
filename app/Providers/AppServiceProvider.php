@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
@@ -35,6 +36,12 @@ class AppServiceProvider extends ServiceProvider
             return md5_file(public_path('mix-manifest.json'));
         });
         Inertia::share([
+            'route' => function(){
+                return [
+                    'currentRouteName' => Route::currentRouteName(),
+                    'current' => Route::current(),
+                ];
+            },
             'auth' => function () {
                 return [
                     'user' => Auth::user() ? 

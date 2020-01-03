@@ -1,5 +1,6 @@
 <template>
 <layout>
+    {{this.$page}}
     <div>      
 
         <InertiaLink href="/posts" class="nav-link">
@@ -75,8 +76,9 @@ export default {
     },
     methods : {
         submit : function(){
+            // console.log(`/posts/${this.post.id}`);
             this.sending = true
-            this.$inertia.put(`/posts/${this.post.id}`, this.form)
+            this.$inertia.put(this.post.links.update, this.form)
             .then(() => this.sending = false);
         },
         setClassBasedOnState : function(formAttributes){

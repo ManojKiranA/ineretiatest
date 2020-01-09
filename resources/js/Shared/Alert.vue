@@ -13,7 +13,7 @@
     export default {
         props : {
             timeOut : {
-                default : 5000,
+                default : null,
             },
             alertType : {
                 type : String,
@@ -30,7 +30,9 @@
                 }
         },
         created() {
-            setTimeout(() => this.elementVisible = false, this.timeOut)
+            if(this.timeOut){
+                setTimeout(() => this.elementVisible = false, this.timeOut)
+            }
         }
     }
 </script>

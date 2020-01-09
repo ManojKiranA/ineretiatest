@@ -4,10 +4,10 @@
     v-if="$page.flash.success" 
     timeOut=2000
     alertType="success"
-    :message=$page.flash.success
+    :message="$page.flash.success"
 >
 </alert>
-    <div>        
+    <div>   
     <div class="row mb-4">
         <div class="col form-inline">
             Per Page: &nbsp;
@@ -22,7 +22,6 @@
         >
             Create New Post
         </InertiaLink>
-{{postResource}}
         <div class="col">
             <TextField 
               type="search"
@@ -64,36 +63,58 @@
                         >
                             Post Desc
                         </InertiaLink>
-                        </th>
+                    </th>
+
+                    <th>
+                        <InertiaLink 
+                            href="#"
+                            @click="sort('sortPostDesc')"
+                            v-model="sort"
+                        >
+                            User
+                        </InertiaLink>
+                    </th>
                     <th class="text-center">
                         Actions
                     </th>
                 </tr>
             </thead>
+            
             <tbody>
-                <tr v-for="post in posts.data" v-bind:key="post.id">
-                    <td>{{post.post_name}}</td>
-                    <td>{{post.post_slug}}</td>
-                    <td>{{post.post_description}}</td>
-                    <td class="text-center">
-                        <InertiaLink
-                            :href="post.links.edit"
-                        >
-                        Edit
-                        </InertiaLink>
+                    <tr v-if="posts.data.length != 0" v-for="post in posts.data" v-bind:key="post.id">
+                        <td>{{post.post_name}}</td>
+                        <td>{{post.post_slug}}</td>
+                        <td>{{post.post_description}}</td>
+                        <td>{{post.user.name}}</td>
+                        <td class="text-center">
+                            <InertiaLink
+                                :href="post.links.edit"
+                            >
+                            Edit
+                            </InertiaLink>
 
-                        <InertiaLink
-                            :href="post.links.show"
-                        >
-                        Show
-                        </InertiaLink>
+                            <InertiaLink
+                                :href="post.links.show"
+                            >
+                            Show
+                            </InertiaLink>
 
-                        <Delete-Button
-                            :url="post.links.delete"
-                        >
-                        </Delete-Button>                        
-                    </td>
+                            <Delete-Button
+                                :url="post.links.delete"
+                            >
+                            </Delete-Button>                        
+                        </td>
                 </tr>
+
+                <tr v-else>
+                    <td colspan="5" style="text-align: center;">
+                        <!-- <img alt="No Data" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNDEiIHZpZXdCb3g9IjAgMCA2NCA0MSIgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMCAxKSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgIDxlbGxpcHNlIGZpbGw9IiNGNUY1RjUiIGN4PSIzMiIgY3k9IjMzIiByeD0iMzIiIHJ5PSI3Ii8+CiAgICA8ZyBmaWxsLXJ1bGU9Im5vbnplcm8iIHN0cm9rZT0iI0Q5RDlEOSI+CiAgICAgIDxwYXRoIGQ9Ik01NSAxMi43Nkw0NC44NTQgMS4yNThDNDQuMzY3LjQ3NCA0My42NTYgMCA0Mi45MDcgMEgyMS4wOTNjLS43NDkgMC0xLjQ2LjQ3NC0xLjk0NyAxLjI1N0w5IDEyLjc2MVYyMmg0NnYtOS4yNHoiLz4KICAgICAgPHBhdGggZD0iTTQxLjYxMyAxNS45MzFjMC0xLjYwNS45OTQtMi45MyAyLjIyNy0yLjkzMUg1NXYxOC4xMzdDNTUgMzMuMjYgNTMuNjggMzUgNTIuMDUgMzVoLTQwLjFDMTAuMzIgMzUgOSAzMy4yNTkgOSAzMS4xMzdWMTNoMTEuMTZjMS4yMzMgMCAyLjIyNyAxLjMyMyAyLjIyNyAyLjkyOHYuMDIyYzAgMS42MDUgMS4wMDUgMi45MDEgMi4yMzcgMi45MDFoMTQuNzUyYzEuMjMyIDAgMi4yMzctMS4zMDggMi4yMzctMi45MTN2LS4wMDd6IiBmaWxsPSIjRkFGQUZBIi8+CiAgICA8L2c+CiAgPC9nPgo8L3N2Zz4K"/> -->
+                        <p>
+                             No Records To Show
+                        </p>
+                    </td>
+                 </tr>
+                 
             </tbody>
         </table>
     </div>
@@ -211,6 +232,7 @@ export default {
             }
         },
         getSortFor : function(sortField){
+            // console.log(this.$page.request);
             const query = this.urlQueryWithParms;
 
             const newQuery = query + '' + '&sort=' + sortField;

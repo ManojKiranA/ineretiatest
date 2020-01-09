@@ -1910,7 +1910,42 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: {
+    usersList: {
+      type: Object,
+      "default": {}
+    }
+  },
   computed: {
     saveButton: function saveButton() {
       if (this.sending === true) {
@@ -1918,6 +1953,9 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return 'Save';
       }
+    },
+    formErrorMessage: function formErrorMessage() {
+      return 'There are ' + Object.keys(this.$page.errors).length + ' form errors';
     }
   },
   data: function data() {
@@ -1925,7 +1963,8 @@ __webpack_require__.r(__webpack_exports__);
       sending: false,
       form: {
         post_name: null,
-        post_description: null
+        post_description: null,
+        user_id: null
       }
     };
   },
@@ -1959,7 +1998,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
 //
 //
 //
@@ -2186,6 +2224,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2270,6 +2329,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     getSortFor: function getSortFor(sortField) {
+      // console.log(this.$page.request);
       var query = this.urlQueryWithParms;
       var newQuery = query + '' + '&sort=' + sortField;
       var foo = newQuery ? "/posts?".concat(newQuery) : '/posts';
@@ -2406,7 +2466,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     timeOut: {
-      "default": 5000
+      "default": null
     },
     alertType: {
       type: String,
@@ -2425,9 +2485,11 @@ __webpack_require__.r(__webpack_exports__);
   created: function created() {
     var _this = this;
 
-    setTimeout(function () {
-      return _this.elementVisible = false;
-    }, this.timeOut);
+    if (this.timeOut) {
+      setTimeout(function () {
+        return _this.elementVisible = false;
+      }, this.timeOut);
+    }
   }
 });
 
@@ -23533,6 +23595,12 @@ var render = function() {
     _c(
       "div",
       [
+        Object.keys(_vm.$page.errors).length >= 1
+          ? _c("alert", {
+              attrs: { alertType: "success", message: _vm.formErrorMessage }
+            })
+          : _vm._e(),
+        _vm._v(" "),
         _c(
           "InertiaLink",
           { staticClass: "nav-link", attrs: { href: "/posts" } },
@@ -23635,6 +23703,76 @@ var render = function() {
                 : _vm._e()
             ]),
             _vm._v(" "),
+            _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "user_id" } }, [_vm._v("Sample DD")]),
+              _vm._v(" "),
+              _c(
+                "select",
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.form.user_id,
+                      expression: "form.user_id"
+                    }
+                  ],
+                  staticClass: "custom-select",
+                  class: _vm.setClassBasedOnState("user_id"),
+                  attrs: { name: "user_id" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.$set(
+                        _vm.form,
+                        "user_id",
+                        $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      )
+                    }
+                  }
+                },
+                [
+                  _c("option", { domProps: { value: null } }, [
+                    _vm._v("Open this select menu")
+                  ]),
+                  _vm._v(" "),
+                  _vm._l(_vm.usersList, function(eachUser, userId) {
+                    return _c(
+                      "option",
+                      { key: userId, domProps: { value: userId } },
+                      [
+                        _vm._v(
+                          "\r\n                        " +
+                            _vm._s(eachUser) +
+                            "\r\n                    "
+                        )
+                      ]
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _vm.$page.errors.user_id
+                ? _c("div", { staticClass: "invalid-feedback" }, [
+                    _vm._v(
+                      "\r\n                    " +
+                        _vm._s(_vm.$page.errors.user_id[0]) +
+                        "\r\n                "
+                    )
+                  ])
+                : _vm._e()
+            ]),
+            _vm._v(" "),
             _c(
               "button",
               {
@@ -23686,7 +23824,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("layout", [
-    _vm._v("\r\n    " + _vm._s(this.$page) + "\r\n    "),
     _c(
       "div",
       [
@@ -23912,7 +24049,7 @@ var render = function() {
               },
               [_vm._v("\r\n            Create New Post\r\n        ")]
             ),
-            _vm._v("\r\n" + _vm._s(_vm.postResource) + "\r\n        "),
+            _vm._v(" "),
             _c(
               "div",
               { staticClass: "col" },
@@ -24027,6 +24164,36 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
+                _c(
+                  "th",
+                  [
+                    _c(
+                      "InertiaLink",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            return _vm.sort("sortPostDesc")
+                          }
+                        },
+                        model: {
+                          value: _vm.sort,
+                          callback: function($$v) {
+                            _vm.sort = $$v
+                          },
+                          expression: "sort"
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\r\n                            User\r\n                        "
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
                 _c("th", { staticClass: "text-center" }, [
                   _vm._v(
                     "\r\n                        Actions\r\n                    "
@@ -24038,34 +24205,63 @@ var render = function() {
             _c(
               "tbody",
               _vm._l(_vm.posts.data, function(post) {
-                return _c("tr", { key: post.id }, [
-                  _c("td", [_vm._v(_vm._s(post.post_name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(post.post_slug))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(post.post_description))]),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    { staticClass: "text-center" },
-                    [
-                      _c("InertiaLink", { attrs: { href: post.links.edit } }, [
-                        _vm._v(
-                          "\r\n                        Edit\r\n                        "
-                        )
-                      ]),
+                return _vm.posts.data.length != 0
+                  ? _c("tr", { key: post.id }, [
+                      _c("td", [_vm._v(_vm._s(post.post_name))]),
                       _vm._v(" "),
-                      _c("InertiaLink", { attrs: { href: post.links.show } }, [
-                        _vm._v(
-                          "\r\n                        Show\r\n                        "
-                        )
-                      ]),
+                      _c("td", [_vm._v(_vm._s(post.post_slug))]),
                       _vm._v(" "),
-                      _c("Delete-Button", { attrs: { url: post.links.delete } })
-                    ],
-                    1
-                  )
-                ])
+                      _c("td", [_vm._v(_vm._s(post.post_description))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(post.user.name))]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "text-center" },
+                        [
+                          _c(
+                            "InertiaLink",
+                            { attrs: { href: post.links.edit } },
+                            [
+                              _vm._v(
+                                "\r\n                            Edit\r\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "InertiaLink",
+                            { attrs: { href: post.links.show } },
+                            [
+                              _vm._v(
+                                "\r\n                            Show\r\n                            "
+                              )
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("Delete-Button", {
+                            attrs: { url: post.links.delete }
+                          })
+                        ],
+                        1
+                      )
+                    ])
+                  : _c("tr", [
+                      _c(
+                        "td",
+                        {
+                          staticStyle: { "text-align": "center" },
+                          attrs: { colspan: "5" }
+                        },
+                        [
+                          _c("p", [
+                            _vm._v(
+                              "\r\n                             No Records To Show\r\n                        "
+                            )
+                          ])
+                        ]
+                      )
+                    ])
               }),
               0
             )

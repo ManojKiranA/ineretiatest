@@ -1,6 +1,5 @@
 <template>
 <layout>
-    {{this.$page}}
     <div>      
 
         <InertiaLink href="/posts" class="nav-link">

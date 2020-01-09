@@ -19,6 +19,12 @@ class CreatePostsTable extends Migration
             $table->string('post_slug', 180)->nullable();
             $table->text('post_description')->nullable();
             $table->timestamps();
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('created_by')->nullable();
+            $table->foreign('created_by')->references('id')->on('users');
+            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->foreign('updated_by')->references('id')->on('users');
             $table->softDeletes();
         });
     }

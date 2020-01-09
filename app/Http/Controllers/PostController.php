@@ -10,8 +10,10 @@ use Inertia\Inertia;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Services\PaginatedLinks;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 use Faker\Generator as Faker;
+use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
@@ -44,7 +46,7 @@ class PostController extends Controller
         ];
 
         $posts = $postObject
-                    ->select(['id','post_name','post_slug','post_description'])
+                    ->select(['id','post_name','post_slug','post_description','user_id'])
                     // ->when($postNameSearch,function($query) use ($postNameSearch){
                     //         $query->where('post_name','LIKE','%'.$postNameSearch.'%');
                     // })
@@ -57,10 +59,11 @@ class PostController extends Controller
                             ->orWhere('post_slug','LIKE','%'.$globalSearchSearch.'%')
                             ;
                     })
-                    ->latest()
+                    ->orderBy('id')
+                    ->with(['user'])
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
-                    ->onEachSide(4);
+                    ->onEachSide(2);
                     
         $cloner = clone $posts;
         $postResource = ((new PostResource($posts)));
@@ -84,7 +87,13 @@ class PostController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Posts/Create');
+        $usersList = User::query()
+                        ->select(['id',DB::raw("CONCAT(name,' (',email, ')') AS nameEmail")])
+                        ->pluck('nameEmail','id');
+
+        $viewShare = compact(['usersList']);
+
+        return Inertia::render('Posts/Create',$viewShare);
     }
 
     /**
@@ -95,8 +104,9 @@ class PostController extends Controller
      */
     public function store(PostStoreRequest $request)
     {
+        
         $storeArray = array_merge(
-            $request->only(['post_name','post_description']),
+            $request->only(['post_name','post_description','user_id']),
             [
                 'post_slug' => Str::slug($request->get('post_name')),
             ]

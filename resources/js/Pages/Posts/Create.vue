@@ -1,6 +1,14 @@
 <template>
 <layout>
-    <div>    
+    <div>  
+        <alert 
+            v-if="Object.keys($page.errors).length >= 1" 
+            alertType="success"
+            :message=formErrorMessage
+        >
+        </alert>
+
+
         <InertiaLink href="/posts" class="nav-link">
                         Back
                     </InertiaLink>      
@@ -35,6 +43,27 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <label for="user_id">Sample DD</label>
+                <select 
+                    class="custom-select" 
+                    :class="setClassBasedOnState('user_id')" 
+                    name="user_id"
+                    v-model="form.user_id"
+                >
+                      <option  :value="null">Open this select menu</option>
+                    <option 
+                    v-for="(eachUser, userId) in usersList" 
+                    :key="userId" :value="userId"
+                    >
+                        {{eachUser}}
+                    </option>
+                </select>
+                <div v-if="$page.errors.user_id" class="invalid-feedback">
+                    {{$page.errors.user_id[0]}}
+                </div>
+            </div>
+
             <button class="btn btn-primary" type="submit" :disabled="sending">
                 <span v-if="sending" class="spinner-border spinner-border-sm text-warning" role="status" aria-hidden="true"></span>
                 {{saveButton}}
@@ -47,6 +76,12 @@
 <script>
 
 export default {
+    props : {
+        usersList : {
+            type : Object,
+            default : {},
+        },
+    },
     computed: {
         saveButton : function(){
             if(this.sending === true){
@@ -54,6 +89,9 @@ export default {
             }else{
                 return 'Save';
             }
+        },
+        formErrorMessage : function(){
+            return 'There are ' + Object.keys(this.$page.errors).length + ' form errors'
         },
     },
     
@@ -63,6 +101,7 @@ export default {
             form: {
                 post_name: null,
                 post_description: null,
+                user_id : null,
             }
         };
     },

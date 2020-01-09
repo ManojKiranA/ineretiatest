@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
                 $this->command->info(PHP_EOL);
             $this->command->info('Loop'.$i.'Ended');
         endfor;
-        
-        
+        exit();        
     }
 }

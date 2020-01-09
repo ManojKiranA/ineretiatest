@@ -7,6 +7,13 @@ use Illuminate\Foundation\Http\FormRequest;
 class PostStoreRequest extends FormRequest
 {
     /**
+     * The key to be used for the view error bag.
+     *
+     * @var string
+     */
+    protected $errorBag = 'default';
+    
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
@@ -24,8 +31,9 @@ class PostStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'post_name' => ['required','string','max:100'],
+            'post_name' => ['required','string','max:100',"unique:\App\Post"],
             'post_description' => ['required','string','max:20000'],
+            'user_id' => ['required'],
         ];
     }
     
@@ -39,6 +47,7 @@ class PostStoreRequest extends FormRequest
         return [
             'post_name' => 'Post Name',
             'post_description' => 'Post Description',
+            'user_id' => 'User Name',
         ];
     }
 

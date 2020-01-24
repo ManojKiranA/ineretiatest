@@ -1983,7 +1983,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         return 'form-control';
       }
+    },
+    formUpdated: function formUpdated(newV, oldV, r) {
+      console.log('the form object updated');
     }
+  },
+  created: function created() {
+    this.$watch('form', this.formUpdated, {
+      deep: true
+    });
   }
 });
 

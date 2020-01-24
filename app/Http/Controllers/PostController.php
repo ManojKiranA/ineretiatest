@@ -14,6 +14,7 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Faker\Generator as Faker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class PostController extends Controller
 {
@@ -46,6 +47,7 @@ class PostController extends Controller
         ];
 
         $posts = $postObject
+                    ->WithAllRelations()
                     ->select(['id','post_name','post_slug','post_description','user_id'])
                     // ->when($postNameSearch,function($query) use ($postNameSearch){
                     //         $query->where('post_name','LIKE','%'.$postNameSearch.'%');
@@ -57,10 +59,17 @@ class PostController extends Controller
                         return $query->where('post_name','LIKE','%'.$globalSearchSearch.'%')
                             ->orWhere('post_description','LIKE','%'.$globalSearchSearch.'%')
                             ->orWhere('post_slug','LIKE','%'.$globalSearchSearch.'%')
+                            ->orWhereHas('user',function($query) use ($globalSearchSearch){
+                                $query->where('name','LIKE','%'.$globalSearchSearch.'%')
+                                ->orWhere('email','LIKE','%'.$globalSearchSearch.'%')
+                                ;
+                            })
                             ;
                     })
                     ->orderBy('id')
-                    ->with(['user'])
+                    // ->with([
+                    //     'user:id,name', 
+                    // ])
                     ->paginate($paginationLength,['*'],'postPage')
                     ->appends($request->only(['postName','postDescription','perPageLength','globalSearch']))
                     ->onEachSide(2);
@@ -87,8 +96,34 @@ class PostController extends Controller
      */
     public function create()
     {
-        $usersList = User::query()
-                        ->select(['id',DB::raw("CONCAT(name,' (',email, ')') AS nameEmail")])
+        \Illuminate\Database\Query\Builder::macro('selectConcat',function(string $concatString, ?string $aliasName = null){
+            if(! $aliasName):
+                return $this->select(\Illuminate\Support\Facades\DB::raw("CONCAT({$concatString})"));
+            else:
+                return $this->select(\Illuminate\Support\Facades\DB::raw("CONCAT({$concatString}) AS {$aliasName}"));
+            endif;
+         });
+
+        \Illuminate\Database\Query\Builder::macro('addSelectConcat',function(string $concatString, ?string $aliasName = null){
+            if(! $aliasName):
+                return $this->addSelect(\Illuminate\Support\Facades\DB::raw("CONCAT({$concatString})"));
+            else:
+                return $this->addSelect(\Illuminate\Support\Facades\DB::raw("CONCAT({$concatString}) AS {$aliasName}"));
+            endif;
+        });
+
+        //to select id and concat of name and email
+
+        // $usersList = User::query()
+        //                 ->select('id')
+        //                 ->addSelectConcat('name," (",email,")"','nameEmail')
+        //                 ->pluck('nameEmail','id')
+        //                 // ->get()
+        //                 ;
+
+        $usersList = DB::table((new User)->getTable())
+                        ->select('id')
+                        ->addSelectConcat('name," (",email,")"','nameEmail')
                         ->pluck('nameEmail','id');
 
         $viewShare = compact(['usersList']);
@@ -111,7 +146,11 @@ class PostController extends Controller
                 'post_slug' => Str::slug($request->get('post_name')),
             ]
         );
+
         Post::create($storeArray);
+        
+
+        // return Response::make('', 409, ['X-Inertia-Location' => $request->fullUrl()]);
 
         return redirect()
                     ->route('posts.index')

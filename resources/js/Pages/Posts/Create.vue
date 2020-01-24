@@ -119,7 +119,20 @@ export default {
                return 'form-control'; 
             }
         },  
+
+        formUpdated: function(newV, oldV,r) {
+    	    console.log('the form object updated')
+        }
         
     },
+    created: function () {
+  	    this.$watch('form', this.formUpdated, {
+                deep: true
+        })
+    },
+
+  
+
+   
 }
 </script>

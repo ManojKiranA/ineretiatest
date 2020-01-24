@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\PostController;
 use App\Mail\ViewTestEmail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,16 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('testEmail', function () {
 
+    // $expiry = "1998-03-10 13:15:00";
+    
+    // $r = now()
+    //     ->diffAsCarbonInterval(Carbon::parse($expiry)->toDateTimeString())
+    //     ->forHumans([
+    //         'join' => true,
+    //         'parts' => 6,
+    //         'short' => false,
+    //         ]);
+    // dd($r);
     $toAddress = [
         [
             'email' => 'test@gmail.com', 
@@ -47,7 +58,7 @@ Route::get('testEmail', function () {
             'email' => 'bcconsendtwo@gmail.com', 
             'name' => 'Bcc On Send Two',
         ],
-    ];
+    ];    
 
     Mail::to($toAddress)
         ->bcc($bccAddress)

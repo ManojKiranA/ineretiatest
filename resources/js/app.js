@@ -21,11 +21,13 @@ files.keys().map(key => {
 
 import { InertiaApp } from '@inertiajs/inertia-vue';
 import Vue from 'vue';
+import axios from 'axios';
 
 import 'bootstrap'; 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-Vue.use(InertiaApp)
+Vue.use(InertiaApp);
+Vue.use(axios);
 
 const app = document.getElementById('app')
 
